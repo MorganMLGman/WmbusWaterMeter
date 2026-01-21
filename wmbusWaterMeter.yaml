@@ -1,0 +1,65 @@
+---
+substitutions:
+  API_KEY: "kQQ8/xqt21w8MpFr4T1ZBUjWrGPADnZcFIeIL0VxU5M="
+  OTA_PASSWORD: "BAgSdr3Vt2itExpIsL1%O#V45HTr81Vw"
+  PROD_MANIFEST_URL: "https://morganmlg.com/wmbusWaterMeter/manifest.json"
+  BETA_MANIFEST_URL: "https://morganmlg.com/wmbusWaterMeter/manifest-beta.json"
+  WEB_USERNAME: "esphome"
+  WEB_PASSWORD: "esphome"
+  AP_SSID: "WmbusWaterMeter-Setup"
+  AP_PASSWORD: "123456789"
+
+esphome:
+  name: wmbus-water-meter
+  friendly_name: "Wmbus Water Meter"
+  comment: "WT32-ETH01 water meter with wireless M-Bus"
+  name_add_mac_suffix: true
+  project:
+    name: "MorganMLGman.WmbusWaterMeter"
+    version: "dev"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+    version: recommended
+
+dashboard_import:
+  package_import_url: github://MorganMLGman/WmbusWaterMeter/wmbusWaterMeter.yaml@main
+  import_full_config: false
+
+packages:
+  DoYouHost/ESPHomeTemplates:
+    url: https://github.com/DoYouHost/ESPHomeTemplates
+    files: 
+      - basic.yaml
+      - debug.yaml
+      - updateBetaProdStaging.yaml
+      # - webServer3.yaml
+      - wifiInfo.yaml
+    ref: main
+    refresh: 0d
+
+wifi:
+  reboot_timeout: 15min
+  enable_btm: true
+  enable_rrm: true
+  post_connect_roaming: true
+  ap: 
+    ssid: "${AP_SSID}"
+    password: "${AP_PASSWORD}"
+
+captive_portal:
+
+improv_serial:
+
+api:
+  reboot_timeout: 15min
+  batch_delay: 50ms
+  encryption:
+    key: "${API_KEY}"
+
+ota:
+  - platform: esphome
+    password: "${OTA_PASSWORD}"
+
